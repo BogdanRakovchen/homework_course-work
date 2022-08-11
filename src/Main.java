@@ -20,14 +20,22 @@ public class Main {
 
 
 //      добавление сотрудника
-        employeeBook.addEmployee("1", "Александ Македонский", "военное ведомство", 123_456);
-        employeeBook.addEmployee("2", "Иван Васильевич", "Государство Российское", 125_456);
+        employeeBook.addEmployee("Александ Македонский", "военное ведомство", 123_456);
+        employeeBook.addEmployee("Иван Васильевич", "Государство Российское", 125_456);
+        employeeBook.addEmployee("Иван Васильевич", "Государство Российское", 125_456);
+
 
 //      удаление сотрудника по id
         employeeBook.removeEmployee("1");
 
+        employeeBook.outputAllEmployees();
+        employeeBook.computedSumAmountOfWages();
+
+        employeeBook.computedAverageSumAmountOfWages();
+
+
 //        изменение данных сотрудника
-        employeeBook.changeEmployee("2", "Юрий Никулин", "цикр", 45_875 );
+        employeeBook.changeEmployee("1", "Иван Иванов", "юридический отдел", 45_500 );
 
 //        вывод сотрдуников с их отделами
         employeeBook.printAllEmployeesFromDepartment("юридический отдел");

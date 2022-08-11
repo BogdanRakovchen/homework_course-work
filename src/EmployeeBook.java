@@ -1,21 +1,20 @@
 import java.util.Arrays;
 
 public class EmployeeBook {
-    private final Employees[] employees;
-    private final Employees[] arrayForAddEmployees;
-    private int size;
+    private final Employee[] employees;
 
     public EmployeeBook() {
 
 
+        Employee employeeIvan = new Employee(Employee.convertIntegerIdToStringId(Employee.count), "Иван Иванов", "юридический отдел", 50_145);
+        Employee employeeFedor = new Employee(Employee.convertIntegerIdToStringId(Employee.count), "Федор Румянцев", "техничский отдел", 70_445);
+        Employee employeeAnastasia = new Employee(Employee.convertIntegerIdToStringId(Employee.count), "Анастасия Сидорова", "финансовый отдел", 56_132);
+        Employee employeeAndrey = new Employee(Employee.convertIntegerIdToStringId(Employee.count), "Андрей Копылов", "отдел закупок", 52_545);
+        Employee employeeViktor = new Employee(Employee.convertIntegerIdToStringId(Employee.count), "Виктор Станиславский", "отдел маркетинга", 65_346);
 
-        Employees employeeIvan = new Employees("1", "Иван Иванов", "юридический отдел", 50_145);
-        Employees employeeFedor = new Employees("2", "Федор Румянцев", "техничский отдел", 70_445);
-        Employees employeeAnastasia = new Employees("3", "Анастасия Сидорова", "финансовый отдел", 56_132);
-        Employees employeeAndrey = new Employees("4", "Андрей Копылов", "отдел закупок", 52_545);
-        Employees employeeViktor = new Employees("5", "Виктор Станиславский", "отдел маркетинга", 65_346);
+        this.employees = new Employee[10];
 
-        this.employees = new Employees[5];
+
 
         this.employees[0] = employeeIvan;
         this.employees[1] = employeeFedor;
@@ -23,9 +22,6 @@ public class EmployeeBook {
         this.employees[3] = employeeAndrey;
         this.employees[4] = employeeViktor;
 
-
-//      новый массив для добавления сотрудников
-        this.arrayForAddEmployees = new Employees[5];
 
     }
 
@@ -36,7 +32,11 @@ public class EmployeeBook {
     private int[] sortArray() {
         int[] arrayWithSalaryOfEmployees = new int[5];
         for(int i = 0; i <= employees.length - 1; i++ ) {
-            arrayWithSalaryOfEmployees[i] = employees[i].getSalaryEmployee();
+            if( employees[i] == null ) {
+                break;
+            } else {
+                arrayWithSalaryOfEmployees[i] = employees[i].getSalaryEmployee();
+            }
         }
         Arrays.sort(arrayWithSalaryOfEmployees);
         return arrayWithSalaryOfEmployees;
@@ -46,8 +46,12 @@ public class EmployeeBook {
 //    вывод всех сотрудников
     public void outputAllEmployees() {
         System.out.println("Список всех сотрдуников: ");
-        for(int i = 0; i < employees.length; i++) {
-            System.out.print(employees[i].getFullNameEmployee() + ", ");
+        for(int i = 0; i < employees.length ; i++) {
+            if( employees[i] == null ) {
+                break;
+            } else {
+                System.out.print(employees[i].getFullNameEmployee() + ", ");
+            }
         }
     }
 
@@ -57,7 +61,11 @@ public class EmployeeBook {
         System.out.println();
         int sum = 0;
         for(int i = 0; i < employees.length; i++) {
-            sum += employees[i].getSalaryEmployee();
+            if( employees[i] == null ) {
+                break;
+            } else {
+                sum += employees[i].getSalaryEmployee();
+            }
         }
         System.out.println("Сумма всех зарплат сотрудников " + sum);
 
@@ -65,11 +73,15 @@ public class EmployeeBook {
 
 //    подсчет средней суммы зарплаты сотрудников
     public void computedAverageSumAmountOfWages() {
-        double averageSum = 0;
+        float averageSum = 0;
         for(int i = 0; i < employees.length; i++) {
-            averageSum += employees[i].getSalaryEmployee();
+            if( employees[i] == null ) {
+                break;
+            } else {
+                averageSum += employees[i].getSalaryEmployee();
+            }
         }
-        averageSum /= employees.length;
+        averageSum /= employees.length - 1;
 
         System.out.println("Средняя сумма зарплат сотрдуников " + averageSum);
 
@@ -81,12 +93,15 @@ public class EmployeeBook {
         int[] arrSortWithEmployee = sortArray();
 
         for(int i = 0; i < employees.length - 1; i++) {
-            if( employees[i].getSalaryEmployee() == arrSortWithEmployee[0] ) {
-                System.out.println("Сотрудник с минимальной зарплатой - " + employees[i].getFullNameEmployee());
-            } else if (employees[i].getSalaryEmployee() == arrSortWithEmployee[arrSortWithEmployee.length - 1]) {
-                System.out.println("Сотрудник с максимальной зарплатой - " + employees[i].getFullNameEmployee());
+            if( employees[i] == null ) {
+                break;
+            } else {
+                if (employees[i].getSalaryEmployee() == arrSortWithEmployee[0]) {
+                    System.out.println("Сотрудник с минимальной зарплатой - " + employees[i].getFullNameEmployee());
+                } else if (employees[i].getSalaryEmployee() == arrSortWithEmployee[arrSortWithEmployee.length - 1]) {
+                    System.out.println("Сотрудник с максимальной зарплатой - " + employees[i].getFullNameEmployee());
+                }
             }
-
         }
     }
 
@@ -97,24 +112,24 @@ public class EmployeeBook {
 
 
 // добавление нового сотрудника
-    public void addEmployee(String employeeId, String fullNameEmployee, String department, int salary) {
-        if (Employees.count >= employees.length) {
-            System.out.println("FirstEmployee book is full. Adding a new employee to addEmployees array.");
+    public void addEmployee(String fullNameEmployee, String department, int salary) {
+        if (Employee.count >= employees.length) {
+            System.out.println("employeesBook is full ");
         }
-        Employees newEmployees = new Employees(employeeId, fullNameEmployee, department, salary);
-        arrayForAddEmployees[size++] = newEmployees;
+        Employee newEmployees = new Employee(Employee.convertIntegerIdToStringId(Employee.count), fullNameEmployee, department, salary);
+        this.employees[Employee.count - 2] = newEmployees;
         System.out.println(newEmployees);
     }
 
 //    удаление сотрудника
 
     public void removeEmployee(String employeeId) {
-        for (int i = 0; i < arrayForAddEmployees.length; i++) {
-            if (arrayForAddEmployees[i].getId().equals(employeeId)) {
-                System.out.println("Сотрудник(ца) " + arrayForAddEmployees[i].getId() + " удален(а)");
-                System.arraycopy(arrayForAddEmployees, i + 1, employees, i, size - i - 1);
-                arrayForAddEmployees[size - 1] = null;
-                size--;
+        for (int i = 0; i < employees.length; i++) {
+            if (employees[i].getId().equals(employeeId)) {
+                System.out.println("Сотрудник(ца) " + employees[i].getId() + " удален(а)");
+                System.arraycopy(employees, i + 1, employees, i, Employee.count - i - 1);
+                employees[Employee.count - 1] = null;
+                Employee.count--;
                 return;
             }
         }
@@ -124,21 +139,33 @@ public class EmployeeBook {
 //    изменение данных сотрудника
 
     public void changeEmployee(String employeeId, String fullNameEmployee, String department, int salary) {
-        for (int i = 0; i < size; i++) {
-          if(arrayForAddEmployees[i].getFullNameEmployee().equals(fullNameEmployee)) {
-              arrayForAddEmployees[i] = new Employees(employeeId, fullNameEmployee, department, salary);
-              System.out.println("Данные сотрудника изменены на: " + arrayForAddEmployees[i].toString());
-          }
+        for (int i = 0; i < employees.length; i++) {
+            if(employees[i] == null) {
+                break;
+            } else if( employees[i] != null ) {
+                if(employees[i].getFullNameEmployee().equals(fullNameEmployee)) {
+                    employees[i] = new Employee(employeeId, fullNameEmployee, department, salary);
+                    System.out.println("Данные сотрудника " + fullNameEmployee + " изменены: департамен - "
+                            + department + ", зарплата - " + salary); }
+            } else {
+                System.out.println("Сотрудник " + fullNameEmployee + " не найден");
+
+            }
+
         }
-        System.out.println("Сотрудник " + fullNameEmployee + " не найден");
     }
 
 //   вывод всех сотрудников с их департаментами
     public void printAllEmployeesFromDepartment(String department) {
-        for (int i = 0; i < size; i++) {
-            if(employees[i].getDepartmentEmployee() == department) {
-                System.out.println("Сотрудники " + employees[i].getFullNameEmployee() + ": " + employees[i].getDepartmentEmployee());
+        for (int i = 0; i < employees.length; i++) {
+            if(employees[i] == null) {
+                break;
+            } else {
+                if(employees[i].getDepartmentEmployee().equals(department)) {
+                    System.out.println("Сотрудники: " + employees[i].getFullNameEmployee() + ": " + employees[i].getDepartmentEmployee());
+                }
             }
+
         }
     }
 

@@ -1,18 +1,21 @@
-public class Employees {
+public class Employee {
 
     private final String id;
     private String fullNameEmployee;
     private String department;
     private int salary;
 
+    public static int count = 1;
 
-    public Employees(String id, String fullNameEmployee, String department, int salary) {
+    public Employee(String id, String fullNameEmployee, String department, int salary) {
+        count++;
         this.id = id;
         this.fullNameEmployee = fullNameEmployee;
         this.department = department;
         this.salary = salary;
-
     }
+
+
 
     public String getId() {
         return id;
@@ -33,5 +36,9 @@ public class Employees {
     @Override
     public String toString() {
         return id + " " + fullNameEmployee + " " + department + " " + salary;
+    }
+
+    public static String convertIntegerIdToStringId(int employeeId) {
+        return "" + employeeId;
     }
 }
