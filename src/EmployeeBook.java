@@ -1,28 +1,11 @@
 import java.util.Arrays;
 
 public class EmployeeBook {
-    private final Employee[] employees;
+    private Employee[] employees;
 
-    public EmployeeBook() {
+    public EmployeeBook(Employee[] employees) {
 
-
-        Employee employeeIvan = new Employee(Employee.convertIntegerIdToStringId(Employee.count), "Иван Иванов", "юридический отдел", 50_145);
-        Employee employeeFedor = new Employee(Employee.convertIntegerIdToStringId(Employee.count), "Федор Румянцев", "техничский отдел", 70_445);
-        Employee employeeAnastasia = new Employee(Employee.convertIntegerIdToStringId(Employee.count), "Анастасия Сидорова", "финансовый отдел", 56_132);
-        Employee employeeAndrey = new Employee(Employee.convertIntegerIdToStringId(Employee.count), "Андрей Копылов", "отдел закупок", 52_545);
-        Employee employeeViktor = new Employee(Employee.convertIntegerIdToStringId(Employee.count), "Виктор Станиславский", "отдел маркетинга", 65_346);
-
-        this.employees = new Employee[10];
-
-
-
-        this.employees[0] = employeeIvan;
-        this.employees[1] = employeeFedor;
-        this.employees[2] = employeeAnastasia;
-        this.employees[3] = employeeAndrey;
-        this.employees[4] = employeeViktor;
-
-
+        this.employees = employees;
     }
 
 
@@ -116,35 +99,40 @@ public class EmployeeBook {
         if (Employee.count >= employees.length) {
             System.out.println("employeesBook is full ");
         }
-        Employee newEmployees = new Employee(Employee.convertIntegerIdToStringId(Employee.count), fullNameEmployee, department, salary);
+        Employee newEmployees = new Employee(fullNameEmployee, department, salary);
         this.employees[Employee.count - 2] = newEmployees;
         System.out.println(newEmployees);
     }
 
 //    удаление сотрудника
 
-    public void removeEmployee(String employeeId) {
+    public void removeEmployee(int employeeId) {
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i].getId().equals(employeeId)) {
-                System.out.println("Сотрудник(ца) " + employees[i].getId() + " удален(а)");
-                System.arraycopy(employees, i + 1, employees, i, Employee.count - i - 1);
-                employees[Employee.count - 1] = null;
-                Employee.count--;
-                return;
+            if( employees[i] == null ) {
+                break;
+            } else {
+                if (employees[i].getId() == employeeId) {
+                    System.out.println("Сотрудник(ца) " + employees[i].getId() + " удален(а)");
+                    System.arraycopy(employees, i + 1, employees, i, Employee.count - i - 1);
+                    employees[Employee.count - 1] = null;
+                    Employee.count--;
+                    return;
+                }
             }
+
         }
     }
 
 
 //    изменение данных сотрудника
 
-    public void changeEmployee(String employeeId, String fullNameEmployee, String department, int salary) {
+    public void changeEmployee(String fullNameEmployee, String department, int salary) {
         for (int i = 0; i < employees.length; i++) {
             if(employees[i] == null) {
                 break;
             } else if( employees[i] != null ) {
                 if(employees[i].getFullNameEmployee().equals(fullNameEmployee)) {
-                    employees[i] = new Employee(employeeId, fullNameEmployee, department, salary);
+                    employees[i] = new Employee(fullNameEmployee, department, salary);
                     System.out.println("Данные сотрудника " + fullNameEmployee + " изменены: департамен - "
                             + department + ", зарплата - " + salary); }
             } else {
